@@ -14,6 +14,16 @@ L'application communique avec le DX-LR30 via son interface série USB et présen
 
 ## Fonctionnalités
 
+## Aperçu
+
+### Tableau de bord
+
+![DX-LR30 Admin - Tableau de bord](docs/dashboard.png)
+
+### Administration Remote Admin
+
+![DX-LR30 Admin - Administration](docs/administration.png)
+
 ### Supervision
 
 * Connexion automatique au répéteur via USB/série
