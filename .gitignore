@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.bak*
+*.before-*
+logs/
+backups/
+uploads/
+*.log
+.env
+.venv/
+venv/
+
+app.py.avant-interface

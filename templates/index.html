@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DX-LR30 Admin</title>
+<style>
+:root {
+  color-scheme: dark;
+  --bg:#07140f;
+  --surface:#0d2118;
+  --surface2:#143323;
+  --text:#edf5df;
+  --muted:#a8b99c;
+  --border:#31523b;
+  --accent:#9fbd55;
+  --ok:#65c174;
+  --warn:#d6ae58;
+  --paisley:#1b4a31;
+  --paisley2:#285d3b;
+  --cream:#e8dfb8;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  min-height:100%;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(159,189,85,.08) 0 2px, transparent 3px),
+    radial-gradient(circle at 80% 70%, rgba(232,223,184,.05) 0 2px, transparent 3px),
+    repeating-radial-gradient(
+      ellipse at 30% 40%,
+      transparent 0 18px,
+      rgba(40,93,59,.16) 19px 21px,
+      transparent 22px 38px
+    ),
+    linear-gradient(135deg,#06120d,#0b1c13 45%,#07140f);
+  background-attachment:fixed;
+  color:var(--text);
+  font:15px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+.app{
+  min-height:100vh;
+  background:transparent;
+  display:grid;
+  grid-template-columns:240px 1fr;
+}
+
+.side{
+  border-right:1px solid var(--border);
+  padding:22px 14px;
+  background:
+    radial-gradient(ellipse at 70% 15%,rgba(159,189,85,.08),transparent 35%),
+    linear-gradient(180deg,#0b2117,#07140f);
+}
+
+.brand{
+  font-size:20px;
+  font-weight:750;
+  padding:0 10px 22px;
+  color:var(--cream);
+}
+
+.brand small{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:500;
+  margin-top:4px;
+}
+
+.nav{
+  display:grid;
+  gap:6px;
+}
+
+.nav button{
+  width:100%;
+  border:1px solid transparent;
+  background:transparent;
+  color:var(--muted);
+  text-align:left;
+  padding:11px 12px;
+  border-radius:9px;
+  font:inherit;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.nav button.active,
+.nav button:hover{
+  background:linear-gradient(135deg,#173b28,#1d4b31);
+  border-color:#3c6545;
+  color:var(--cream);
+  transform:translateX(2px);
+}
+
+.main{
+  padding:28px;
+  max-width:1250px;
+  width:100%;
+}
+
+.card,
+.badge{
+  background:
+    linear-gradient(145deg,rgba(20,51,35,.97),rgba(10,30,20,.97));
+  border:1px solid var(--border);
+  box-shadow:0 8px 25px rgba(0,0,0,.22);
+}
+
+.card{
+  border-radius:14px;
+  padding:18px;
+}
+
+.title{
+  font-size:28px;
+  font-weight:750;
+  margin:3px 0;
+  color:var(--cream);
+}
+
+.eyebrow,
+.label,
+.muted,
+.note{
+  color:var(--muted);
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:8px 11px;
+  border-radius:999px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--ok);
+  box-shadow:0 0 8px rgba(101,193,116,.7);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.section{
+  margin-top:22px;
+}
+
+.section h2,
+.section h3{
+  color:var(--cream);
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:11px 0;
+  border-bottom:1px solid rgba(49,82,59,.65);
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.fake-item{
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:rgba(20,51,35,.72);
+}
+
+.action{
+  border:1px solid #3d6545;
+  background:linear-gradient(135deg,#173b28,#214d32);
+  color:var(--cream);
+  padding:9px 12px;
+  border-radius:9px;
+  font:inherit;
+  cursor:pointer;
+  transition:.15s ease;
+}
+
+.action:hover{
+  border-color:var(--accent);
+  transform:translateY(-1px);
+  box-shadow:0 3px 12px rgba(159,189,85,.16);
+}
+
+.action:active{
+  transform:translateY(0);
+}
+
+.danger{
+  border-color:#8a4d4d;
+}
+
+.mesh-head,
+.mesh-item{
+  border-color:var(--border);
+  background:rgba(20,51,35,.72);
+}
+
+.mesh-head{
+  color:var(--muted);
+}
+
+.hidden{
+  display:none;
+}
+
+@media(max-width:850px){
+  .app{grid-template-columns:1fr}
+  .side{border-right:0;border-bottom:1px solid var(--border)}
+  .nav{grid-template-columns:repeat(3,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .panel{grid-template-columns:1fr}
+}
+
+@media(max-width:520px){
+  .main{padding:18px}
+  .grid{grid-template-columns:1fr}
+  .nav{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand">DX-LR30 <small>Administration</small></div>
+  <nav class="nav">
+    <button class="active" data-page="dashboard">🏠 Tableau de bord</button>
+    <button data-page="radio">📡 Radio</button>
+    <button data-page="repeater">🔁 Répéteur</button>
+    <button data-page="identity">📍 Identification</button>
+    <button data-page="mesh">🌐 Réseau / Mesh</button>
+    <button data-page="admin">🔐 Administration</button>
+    <button data-page="config">💾 Configuration</button>
+    <button data-page="maintenance">⚡ Maintenance</button>
+  </nav>
+</aside>
+<main class="main">
+  <div class="top">
+    <div><div class="eyebrow">SPECTER MeshCore Repeater</div><div class="title" id="pageTitle">Tableau de bord</div><div class="muted">Interface de gestion — prototype</div></div>
+    <div class="badge" id="dashStatus"><span class="dot"></span> {{ status }}</div>
+  </div>
+
+  <section id="dashboard" class="page">
+    <div class="grid">
+      <div class="card"><div class="label">Firmware</div><div class="value" id="dashFirmware">{{ state.version }}</div></div>
+      <div class="card"><div class="label">Uptime</div><div class="value" id="dashUptime">{{ uptime }}</div></div>
+      <div class="card"><div class="label">Répétition</div><div class="value">{{ state.repeat }}</div></div>
+      <div class="card"><div class="label">RX / Relay / Drop</div><div class="value" id="dashStats">{{ state.rx }} / {{ state.relay }} / {{ state.drop }}</div></div>
+    </div>
+    <div class="section panel">
+      <div class="card"><h2>État radio</h2><div class="row"><span>RSSI</span><strong id="dashRssi">—</strong></div><div class="row"><span>SNR</span><strong id="dashSnr">—</strong></div><div class="row"><span>Fréquence</span><strong>{{ radio.frequency }} MHz</strong></div><div class="row"><span>Canalisation</span><strong>{{ radio.bandwidth }} kHz / SF{{ radio.sf }} / CR{{ radio.cr }}</strong></div></div>
+      <div class="card"><h2>Dernières informations</h2><div class="row"><span>Connexion USB</span><strong>OK</strong></div><div class="row"><span>Port</span><strong>/dev/specter-repeater</strong></div><div class="row"><span>Flashage</span><strong>Disponible</strong></div></div>
+    </div>
+  </section>
+
+  <section id="radio" class="page hidden"><div class="card theme"><h2>📡 Radio</h2><div class="row"><span>Fréquence</span><strong id="radioFrequency">{{ radio.frequency }} MHz</strong></div><div class="row"><span>Bandwidth</span><strong id="radioBandwidth">{{ radio.bandwidth }} kHz</strong></div><div class="row"><span>Spreading Factor</span><strong id="radioSf">SF{{ radio.sf }}</strong></div><div class="row"><span>Coding Rate</span><strong id="radioCr">CR{{ radio.cr }}</strong></div><div class="row"><span>Puissance TX</span><strong>—</strong></div><div class="section"><h2>Valeurs modifiables</h2><div class="fake-list"><div class="fake-item">Fréquence <span class="muted" id="radioEditFrequency">{{ radio.frequency }}</span> MHz</div><div class="fake-item">Bandwidth <span class="muted" id="radioEditBandwidth">{{ radio.bandwidth }}</span> kHz</div><div class="fake-item">Spreading Factor <span class="muted" id="radioEditSf">SF{{ radio.sf }}</span></div><div class="fake-item">Coding Rate <span class="muted" id="radioEditCr">CR{{ radio.cr }}</span></div><div class="fake-item">Puissance TX <span class="muted">non disponible</span></div></div></div><div class="actions"><button class="action" id="radioEdit">Modifier</button><button class="action" id="radioRefresh">Actualiser</button></div><div class="note">Toute modification radio provoquera le redémarrage automatique de la DX.</div></div></section>
+  <section id="repeater" class="page hidden"><div class="card theme"><h2>🔁 Répéteur</h2><div class="row"><span>Répétition</span><strong>{{ state.repeat }}</strong></div><div class="row"><span>RX</span><strong>{{ state.rx }}</strong></div><div class="row"><span>Relay</span><strong>{{ state.relay }}</strong></div><div class="row"><span>Drop</span><strong>{{ state.drop }}</strong></div><div class="actions"><button class="action" onclick="setRepeater('on')">🟢 Activer</button><button class="action" onclick="setRepeater('off')">🔴 Désactiver</button><button class="action" onclick="refreshRepeater()">🔄 Actualiser</button></div></div></section>
+  <section id="identity" class="page hidden"><div class="card theme"><h2>📍 Identification & localisation</h2><div class="row"><span>Nom du nœud</span><strong id="identityName">{{ identity.name }}</strong></div><div class="row"><span>Latitude</span><strong id="identityLat">{{ identity.lat }}</strong></div><div class="row"><span>Longitude</span><strong id="identityLon">{{ identity.lon }}</strong></div><div class="row"><span>Owner info</span><strong id="identityOwner">{{ identity.owner }}</strong></div><div class="section"><h2>Valeurs modifiables</h2><div class="fake-list"><div class="fake-item">Nom du nœud <span class="muted" id="identityEditName">{{ identity.name }}</span></div><div class="fake-item">Latitude <span class="muted" id="identityEditLat">{{ identity.lat }}</span></div><div class="fake-item">Longitude <span class="muted" id="identityEditLon">{{ identity.lon }}</span></div><div class="fake-item">Owner info <span class="muted" id="identityEditOwner">{{ identity.owner }}</span></div></div></div><div class="actions"><button class="action" id="identityEdit">Modifier</button><button class="action" id="identityRefresh">Actualiser</button></div><div class="note">Les modifications seront envoyées à la DX uniquement après confirmation.</div></div></section>
+  <section id="mesh" class="page hidden"><div class="card theme"><h2>🌐 Réseau / Mesh</h2><div class="actions"><button class="action" id="meshRefresh">Actualiser</button><button class="action" id="meshDiscover">Découvrir les voisins</button></div><div class="fake-list"><div class="fake-item">Répéteurs voisins <strong id="meshNeighbours">—</strong></div><div class="fake-item">Nœuds distants <strong id="meshNodes">—</strong></div><div class="fake-item">Room Servers <strong id="meshRooms">—</strong></div><div class="fake-item">Dernières découvertes <strong id="meshDiscoveries">—</strong></div></div><div class="section"><h2>Voisins découverts</h2><div class="mesh-table"><div class="mesh-head"><span>Type</span><span>Identifiant</span><span>SNR</span><span>Dernière découverte</span></div><div id="meshNeighbourList"><div class="mesh-item muted"><span>—</span><span>Aucun voisin découvert.</span><span>—</span></div></div></div></div><div class="note" id="meshStatus">En attente.</div></div></section>
+  <section id="admin" class="page hidden">
+  <div class="card theme">
+    <h2>🔐 Administration</h2>
+    <div class="row"><span>Remote Admin</span><strong>Activé</strong></div>
+    <div class="row"><span>Clients actifs</span><strong id="raClientCount">—</strong></div>
+
+    <div class="section">
+      <h2>Clients autorisés</h2>
+      <div id="raClientList" class="fake-list">
+        <div class="fake-item muted">Chargement…</div>
+      </div>
+    </div>
+
+    <div class="section">
+    <div class="section">
+      <h2>Changer le mot de passe Remote Admin</h2>
+      <div class="actions">
+        <input id="raPassword" type="password" maxlength="32"
+               placeholder="Nouveau mot de passe"
+               style="flex:1; min-width:280px;">
+        <input id="raPasswordConfirm" type="password" maxlength="32"
+               placeholder="Confirmer le mot de passe"
+               style="flex:1; min-width:280px;">
+        <button class="action" id="raPasswordChange">🔑 Modifier</button>
+      </div>
+    </div>
+
+      <h2>Ajouter un client</h2>
+      <div class="actions">
+        <input id="raClientPubkey" type="text" maxlength="64"
+               placeholder="Clé publique Ed25519 — 64 caractères hexadécimaux"
+               style="flex:1; min-width:280px;">
+        <button class="action" id="raClientAdd">➕ Ajouter</button>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="action" id="raClientsRefresh">🔄 Actualiser</button>
+    </div>
+
+    <div class="note">Les clés secrètes et le mot de passe RA ne sont jamais affichés.</div>
+  </div>
+</section>
+  <section id="config" class="page hidden"><div class="card theme"><h2>💾 Configuration</h2><div class="actions"><button class="action" id="configRead">Lire la configuration</button><div id="configDisplay" class="section"></div><button class="action" id="configSave">Sauvegarder</button><button class="action" id="configRestore">Restaurer</button><button class="action" id="configExport">Exporter</button><button class="action" id="configImport">Importer</button></div><div class="note">Les opérations d'écriture demanderont une confirmation avant exécution.</div></div></section>
+  <section id="maintenance" class="page hidden"><div class="card theme"><h2>⚡ Maintenance</h2><div class="actions"><button class="action" id="maintenanceDiagnostic">Diagnostic</button><div id="diagnosticDisplay" class="section"></div><button class="action" id="maintenanceLogs">Lire les logs</button><div id="logsDisplay" class="section"></div><button class="action" id="maintenanceReboot">Redémarrer la DX</button><button class="action" id="maintenanceBackup">Sauvegarder le firmware</button><button class="action" id="maintenanceFlash">Flasher un firmware</button></div><div class="note">Le flashage sera protégé par sélection du fichier, vérification et confirmation explicite.</div></div></section>
+</main>
+</div>
+<script>
+const titles={dashboard:'Tableau de bord',radio:'Radio',repeater:'Répéteur',identity:'Identification & localisation',mesh:'Réseau / Mesh',admin:'Administration',config:'Configuration',maintenance:'Maintenance'};
+for(const b of document.querySelectorAll('.nav button')) b.addEventListener('click',()=>{const p=b.dataset.page;document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));document.getElementById(p).classList.remove('hidden');document.getElementById('pageTitle').textContent=titles[p];});
+
+async function refreshNeighbours(){
+  try{
+    const r=await fetch("/api/mesh/neighbours");
+    const d=await r.json();
+    const list=d.neighbours||[];
+    const repeaters=list.filter(n=>n.type===2);
+    const nodes=list.filter(n=>n.type===1);
+    const rooms=list.filter(n=>n.type===3);
+    document.getElementById("meshNeighbours").textContent=repeaters.length;
+    document.getElementById("meshNodes").textContent=nodes.length;
+    document.getElementById("meshRooms").textContent=rooms.length;
+    document.getElementById("meshDiscoveries").textContent=list.map(n=>n.pub+" ("+(n.type===2?"Répéteur":n.type===1?"Nœud":"Room Server")+", SNR "+n.snr+")").join(" · ")||"—";
+    document.getElementById("meshNeighbourList").innerHTML=list.length
+      ? list.map(n=>'<div class="mesh-item"><span class="mesh-type">'+(n.type===2?"🔁 Répéteur":n.type===1?"📱 Nœud":"🏠 Room Server")+'</span><strong>'+n.pub+'</strong><span class="mesh-snr">'+n.snr+'</span><span>'+ (n.last_seen || "—") +'</span></div>').join("")
+      : '<div class="mesh-item muted"><span>—</span><span>Aucun voisin découvert.</span><span>—</span></div>';
+  }catch(e){}
+}
+
+document.getElementById('meshDiscover').addEventListener('click',async()=>{
+  const r=await fetch('/api/mesh/discover');
+  const d=await r.json();
+  document.getElementById('meshStatus').textContent=d.message;
+  if(d.ok){
+    for(let i=0;i<5;i++){
+      await new Promise(resolve=>setTimeout(resolve,2000));
+      await refreshNeighbours();
+    }
+  }
+});
+
+document.getElementById('meshRefresh').addEventListener('click',refreshNeighbours);
+document.getElementById('meshDiscover').click();
+document.getElementById('identityRefresh').addEventListener('click',async()=>{
+  const r=await fetch('/api/identity/refresh');
+  const d=await r.json();
+
+  if(!d.ok){
+    alert(d.message||"Erreur");
+    return;
+  }
+
+  await new Promise(resolve=>setTimeout(resolve,700));
+
+  const r2=await fetch('/api/identity');
+  const d2=await r2.json();
+
+  if(!d2.ok){
+    alert(d2.message||"Erreur");
+    return;
+  }
+
+  document.getElementById('identityName').textContent=d2.identity.name;
+  document.getElementById('identityLat').textContent=d2.identity.lat;
+  document.getElementById('identityLon').textContent=d2.identity.lon;
+  document.getElementById('identityOwner').textContent=d2.identity.owner;
+  document.getElementById('identityEditName').textContent=d2.identity.name;
+  document.getElementById('identityEditLat').textContent=d2.identity.lat;
+  document.getElementById('identityEditLon').textContent=d2.identity.lon;
+  document.getElementById('identityEditOwner').textContent=d2.identity.owner;
+});
+
+document.getElementById('identityEdit').addEventListener('click',async()=>{
+  const name=prompt("Nom du nœud :",{{ identity.name|tojson }});
+  if(name===null)return;
+  const lat=prompt("Latitude :",{{ identity.lat|tojson }});
+  if(lat===null)return;
+  const lon=prompt("Longitude :",{{ identity.lon|tojson }});
+  if(lon===null)return;
+  const owner=prompt("Owner info :",{{ identity.owner|tojson }});
+  if(owner===null)return;
+
+  if(!confirm("Confirmer l’écriture de ces 4 valeurs sur la DX ?"))return;
+
+  const r=await fetch('/api/identity/update',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({name,lat,lon,owner})
+  });
+  const d=await r.json();
+
+  if(d.ok){
+    alert("Modification envoyée.");
+    await new Promise(resolve=>setTimeout(resolve,700));
+    document.getElementById('identityRefresh').click();
+  }else{
+    alert(d.message||"Erreur");
+  }
+});
+
+document.getElementById("maintenanceDiagnostic")?.addEventListener("click", async () => {
+  const d = document.getElementById("diagnosticDisplay");
+  d.textContent = "Lecture du diagnostic...";
+  try {
+    const r = await fetch("/api/diagnostic");
+    const j = await r.json();
+    if (!j.ok) throw new Error();
+    const x = j.diagnostic;
+    d.innerHTML =
+      "<h3>Diagnostic DX</h3>" +
+      "<p><b>Connexion :</b> " + (x.connected ? "OK" : "Hors ligne") + "</p>" +
+      "<p><b>Firmware :</b> " + x.version + "</p>" +
+      "<p><b>Uptime :</b> " + x.uptime + " s</p>" +
+      "<p><b>RX :</b> " + x.rx + " | <b>Relay :</b> " + x.relay + " | <b>Drop :</b> " + x.drop + "</p>" +
+      "<p><b>RSSI :</b> " + x.rssi + " dBm | <b>SNR :</b> " + x.snr + "</p>" +
+      "<p><b>Répéteur :</b> " + x.repeat + "</p>" +
+      "<p><b>Radio :</b> " + x.radio.frequency + " MHz / " + x.radio.bandwidth + " kHz / SF" + x.radio.sf + " / CR" + x.radio.cr + "</p>" +
+      "<p><b>Nom :</b> " + x.identity.name + " | <b>Owner :</b> " + x.identity.owner + "</p>" +
+      "<p><b>Voisins :</b> " + x.neighbours + "</p>";
+  } catch(e) {
+    d.textContent = "Erreur de communication avec DX-Admin.";
+  }
+});
+
+document.getElementById("maintenanceLogs")?.addEventListener("click", async () => {
+  const d = document.getElementById("logsDisplay");
+  d.textContent = "Lecture des logs...";
+  try {
+    const r = await fetch("/api/logs");
+    const j = await r.json();
+    if (!j.ok) throw new Error();
+    d.innerHTML = "<h3>Logs DX-Admin</h3><pre>" + j.logs.join("\n") + "</pre>";
+  } catch(e) {
+    d.textContent = "Erreur de lecture des logs.";
+  }
+});
+document.getElementById("maintenanceReboot")?.addEventListener("click", async () => {
+  if (!confirm("Redémarrer la DX ?")) return;
+  try {
+    const r = await fetch("/api/reboot", { method: "POST" });
+    const j = await r.json();
+    if (!j.ok) throw new Error(j.message || "Erreur");
+    alert("Commande de redémarrage envoyée.");
+  } catch(e) {
+    alert(e.message || "Erreur de communication avec la DX.");
+  }
+});
+
+
+</script>
+
+<script>
+document.getElementById('radioRefresh').addEventListener('click', async ()=>{
+  const r = await fetch('/api/radio');
+  const d = await r.json();
+
+  if(!d.ok){
+    alert(d.message || "Erreur");
+    return;
+  }
+
+  const x = d.radio;
+  document.getElementById('radioFrequency').textContent = x.frequency + " MHz";
+  document.getElementById('radioBandwidth').textContent = x.bandwidth + " kHz";
+  document.getElementById('radioSf').textContent = "SF" + x.sf;
+  document.getElementById('radioCr').textContent = "CR" + x.cr;
+
+  document.getElementById('radioEditFrequency').textContent = x.frequency;
+  document.getElementById('radioEditBandwidth').textContent = x.bandwidth;
+  document.getElementById('radioEditSf').textContent = "SF" + x.sf;
+  document.getElementById('radioEditCr').textContent = "CR" + x.cr;
+});
+
+document.getElementById('radioEdit').addEventListener('click', async ()=>{
+  const r = await fetch('/api/radio');
+  const d = await r.json();
+
+  if(!d.ok){
+    alert(d.message || "Erreur");
+    return;
+  }
+
+  const x = d.radio;
+
+  const frequency = prompt("Fréquence MHz :", x.frequency);
+  if(frequency === null) return;
+
+  const bandwidth = prompt("Bandwidth kHz :", x.bandwidth);
+  if(bandwidth === null) return;
+
+  const sf = prompt("Spreading Factor (5-12) :", x.sf);
+  if(sf === null) return;
+
+  const cr = prompt("Coding Rate (5-8) :", x.cr);
+  if(cr === null) return;
+
+  if(!confirm("Confirmer l'écriture de cette configuration radio sur la DX ?\n\nLa DX redémarrera automatiquement.")) return;
+
+  const r2 = await fetch('/api/radio/update',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({frequency, bandwidth, sf, cr})
+  });
+
+  const d2 = await r2.json();
+
+  if(d2.ok){
+    alert("Configuration radio envoyée. La DX va redémarrer.");
+  }else{
+    alert(d2.message || "Erreur");
+  }
+});
+</script>
+
+<script>
+
+async function refreshRAClients(){
+  try{
+    const r = await fetch("/api/admin/clients");
+    const d = await r.json();
+
+    const list = document.getElementById("raClientList");
+    const count = document.getElementById("raClientCount");
+
+    if(!d.ok){
+      count.textContent = "—";
+      list.innerHTML = '<div class="fake-item muted">DX déconnectée</div>';
+      return;
+    }
+
+    const clients = d.clients || [];
+    count.textContent = clients.length + " / 4";
+
+    if(!clients.length){
+      list.innerHTML = '<div class="fake-item muted">Aucun client autorisé.</div>';
+      return;
+    }
+
+    list.innerHTML = clients.map((client, i) => {
+      const m = client.match(/^client\s+(\d+):\s+(.+?)\s+perm=(\d+)\s+pathlen=(\d+)$/);
+      if(!m)
+        return '<div class="fake-item">' + client + '</div>';
+
+      return '<div class="fake-item">' +
+        '<strong>Client ' + m[1] + '</strong> ' +
+        '<span class="muted">Permissions : ' + m[3] +
+        ' · Chemin : ' + m[4] + ' octets</span> ' +
+        '<button class="action" onclick="removeRAClient(' + m[1] + ')">🗑️ Supprimer</button>' +
+        '</div>';
+    }).join("");
+  }catch(e){
+    document.getElementById("raClientCount").textContent = "—";
+    document.getElementById("raClientList").innerHTML =
+      '<div class="fake-item muted">Erreur de communication.</div>';
+  }
+}
+
+document.getElementById("raPasswordChange").addEventListener("click", async () => {
+  const password = document.getElementById("raPassword").value;
+  const confirmPassword = document.getElementById("raPasswordConfirm").value;
+
+  if (password.length < 8 || password.length > 32) {
+    alert("Le mot de passe doit contenir entre 8 et 32 caractères.");
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    alert("Les deux mots de passe ne correspondent pas.");
+    return;
+  }
+
+  if (!confirm("⚠️ Modifier le mot de passe Remote Admin sur la DX ?")) {
+    return;
+  }
+
+  try {
+    const r = await fetch("/api/admin/password", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({password})
+    });
+
+    const d = await r.json();
+
+    if (!d.ok) {
+      alert(d.message || "Échec de la modification.");
+      return;
+    }
+
+    document.getElementById("raPassword").value = "";
+    document.getElementById("raPasswordConfirm").value = "";
+
+    alert("✅ Mot de passe Remote Admin modifié.");
+  } catch(e) {
+    alert("Erreur de communication avec DX-Admin.");
+  }
+});
+
+document.getElementById("raClientAdd").addEventListener("click", async () => {
+  const input = document.getElementById("raClientPubkey");
+  const pubkey = input.value.trim();
+
+  if(!/^[0-9a-fA-F]{64}$/.test(pubkey)){
+    alert("La clé publique doit contenir exactement 64 caractères hexadécimaux.");
+    return;
+  }
+
+  if(!confirm("Ajouter ce client Remote Admin ?")) return;
+
+  try{
+    const r = await fetch("/api/admin/add-client", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({pubkey})
+    });
+
+    const d = await r.json();
+
+    if(!d.ok){
+      alert(d.message || "Échec de l'ajout.");
+      return;
+    }
+
+    input.value = "";
+    alert("Commande d'ajout envoyée.");
+    setTimeout(refreshRAClients, 500);
+  }catch(e){
+    alert("Erreur de communication avec DX-Admin.");
+  }
+});
+
+async function removeRAClient(client){
+  if(!confirm("ATTENTION : supprimer définitivement le client " + client + " du Remote Admin ?")) return;
+
+  const confirmation = prompt("Pour confirmer, saisissez le numéro du client : " + client);
+  if(confirmation !== String(client)){
+    alert("Suppression annulée.");
+    return;
+  }
+
+  try{
+    const r = await fetch("/api/admin/remove-client", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({client: String(client)})
+    });
+
+    const d = await r.json();
+
+    if(!d.ok){
+      alert(d.message || "Échec de la suppression.");
+      return;
+    }
+
+    alert("Commande de suppression envoyée.");
+    setTimeout(refreshRAClients, 500);
+  }catch(e){
+    alert("Erreur de communication avec DX-Admin.");
+  }
+}
+
+document.getElementById("raClientsRefresh").addEventListener("click", refreshRAClients);
+refreshRAClients();
+
+async function refreshDashboard(){
+  try {
+    const r = await fetch("/api/telemetry");
+    const d = await r.json();
+    if (!d.ok) return;
+    const t = d.telemetry;
+    document.getElementById("dashStats").textContent = `${t.rx ?? "—"} / ${t.relay ?? "—"} / ${t.drop ?? "—"}`;
+    document.getElementById("dashRssi").textContent = t.rssi != null ? t.rssi + " dBm" : "—";
+    document.getElementById("dashSnr").textContent = t.snr != null ? t.snr + " dB" : "—";
+    if (t.uptime != null) {
+      const m = Math.floor(t.uptime / 60);
+      const s = t.uptime % 60;
+      document.getElementById("dashUptime").textContent = `${m} min ${s} s`;
+    }
+  } catch(e) {}
+}
+refreshDashboard();
+setInterval(refreshDashboard, 2000);
+setInterval(refreshNeighbours, 2000);
+</script>
+
+<script>
+async function setRepeater(action) {
+  const message = action === "on"
+    ? "Activer la répétition ?"
+    : "Désactiver la répétition ?";
+
+  if (!confirm(message)) return;
+
+  const r = await fetch("/api/repeater/update", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({repeat: action})
+  });
+
+  const d = await r.json();
+
+  if (!d.ok) {
+    alert(d.message || "Erreur");
+    return;
+  }
+
+  setTimeout(refreshRepeater, 500);
+}
+
+async function refreshRepeater() {
+  try {
+    const r = await fetch("/api/repeater");
+    const d = await r.json();
+
+    if (!d.ok) return;
+
+    const rows = document.querySelectorAll("#repeater .row strong");
+    if (rows[0]) rows[0].textContent = d.repeat;
+  } catch(e) {}
+}
+
+async function readConfig() {
+  try {
+    const r = await fetch("/api/config");
+    const d = await r.json();
+
+    if (!d.ok) {
+      alert(d.message || "Erreur de lecture");
+      return;
+    }
+
+    const c = d.config || {};
+    const radio = c.radio || {};
+
+    document.getElementById("configDisplay").innerHTML = `
+      <h3>Configuration actuelle</h3>
+      <div class="row"><span>Répéteur</span><strong>${c.repeat || "—"}</strong></div>
+      <div class="row"><span>Fréquence</span><strong>${radio.frequency || "—"} MHz</strong></div>
+      <div class="row"><span>Bande passante</span><strong>${radio.bandwidth || "—"} kHz</strong></div>
+      <div class="row"><span>Spreading Factor</span><strong>SF${radio.sf || "—"}</strong></div>
+      <div class="row"><span>Coding Rate</span><strong>CR${radio.cr || "—"}</strong></div>
+    `;
+  } catch(e) {
+    alert("Erreur de communication avec DX-Admin.");
+  }
+}
+
+document.getElementById("configRead")?.addEventListener("click", readConfig);
+
+document.getElementById("configRestore")?.addEventListener("click", async () => {
+  try {
+    const r = await fetch("/api/config/backups");
+    const d = await r.json();
+
+    if (!d.ok || !d.backups?.length) {
+      alert("Aucune sauvegarde disponible.");
+      return;
+    }
+
+    const choix = prompt(
+      "Sauvegardes disponibles :\n\n" +
+      d.backups.map((b, i) => `${i + 1}. ${b}`).join("\n") +
+      "\n\nEntrez le numéro de la sauvegarde à restaurer :"
+    );
+
+    if (choix === null) return;
+
+    const index = parseInt(choix, 10) - 1;
+
+    if (!Number.isInteger(index) || !d.backups[index]) {
+      alert("Choix invalide.");
+      return;
+    }
+
+    const fichier = d.backups[index];
+
+    if (!confirm(
+      "ATTENTION : la restauration va modifier la configuration du répéteur.\n\n" +
+      "Sauvegarde : " + fichier + "\n\nContinuer ?"
+    )) return;
+
+    try {
+      const r2 = await fetch("/api/config/restore", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({filename: fichier})
+      });
+
+      const d2 = await r2.json();
+
+      if (!d2.ok) {
+        alert(d2.message || "Erreur de restauration");
+        return;
+      }
+
+      alert(d2.message);
+      await readConfig();
+
+    } catch(e) {
+      alert("Erreur de communication avec DX-Admin.");
+    }
+
+  } catch(e) {
+    alert("Erreur de communication avec DX-Admin.");
+  }
+});
+
+document.getElementById("configImport")?.addEventListener("click", () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".json,application/json";
+
+  input.onchange = async () => {
+    const fichier = input.files?.[0];
+    if (!fichier) return;
+
+    try {
+      const texte = await fichier.text();
+      const config = JSON.parse(texte);
+
+      if (!config.repeat || !config.radio) {
+        alert("Fichier de configuration invalide.");
+        return;
+      }
+
+      const r = config.radio;
+
+      if (
+        !["ON", "OFF"].includes(String(config.repeat).toUpperCase()) ||
+        Number(r.frequency) <= 0 ||
+        Number(r.bandwidth) <= 0 ||
+        !Number.isInteger(Number(r.sf)) ||
+        !Number.isInteger(Number(r.cr)) ||
+        Number(r.sf) < 5 || Number(r.sf) > 12 ||
+        Number(r.cr) < 5 || Number(r.cr) > 8
+      ) {
+        alert("Valeurs de configuration invalides.");
+        return;
+      }
+
+      if (!confirm(
+        "ATTENTION : importer cette configuration va modifier le répéteur.\n\n" +
+        "Fichier : " + fichier.name + "\n" +
+        "Répéteur : " + String(config.repeat).toUpperCase() + "\n" +
+        "Fréquence : " + r.frequency + " MHz\n" +
+        "Bande passante : " + r.bandwidth + " kHz\n" +
+        "SF : " + r.sf + "\n" +
+        "CR : " + r.cr + "\n\n" +
+        "Continuer ?"
+      )) return;
+
+      const form = new FormData();
+      form.append("file", fichier);
+
+      const response = await fetch("/api/config/import", {
+        method: "POST",
+        body: form
+      });
+
+      const result = await response.json();
+
+      if (!result.ok) {
+        alert(result.message || "Erreur d'importation");
+        return;
+      }
+
+      alert(result.message);
+      await readConfig();
+
+    } catch(e) {
+      alert("Fichier JSON invalide.");
+    }
+  };
+
+  input.click();
+});
+
+document.getElementById("configExport")?.addEventListener("click", async () => {
+  try {
+    const r = await fetch("/api/config");
+    const d = await r.json();
+
+    if (!d.ok) {
+      alert(d.message || "Erreur de lecture");
+      return;
+    }
+
+    const blob = new Blob(
+      [JSON.stringify(d.config, null, 2)],
+      {type: "application/json"}
+    );
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "dx-config-export.json";
+    a.click();
+    URL.revokeObjectURL(url);
+
+  } catch(e) {
+    alert("Erreur de communication avec DX-Admin.");
+  }
+});
+
+document.getElementById("configSave")?.addEventListener("click", async () => {
+  if (!confirm("Sauvegarder la configuration actuelle dans DX-Admin ?")) return;
+
+  try {
+    const r = await fetch("/api/config/save", {method: "POST"});
+    const d = await r.json();
+
+    if (!d.ok) {
+      alert(d.message || "Erreur de sauvegarde");
+      return;
+    }
+
+    alert(d.message);
+  } catch(e) {
+    alert("Erreur de communication avec DX-Admin.");
+  }
+});
+
+document.getElementById("maintenanceFlash")?.addEventListener("click", () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = ".bin";
+
+  input.addEventListener("change", async () => {
+    const file = input.files?.[0];
+    if (!file) return;
+
+    if (!file.name.toLowerCase().endsWith(".bin")) {
+      alert("❌ Firmware refusé\n\nSeuls les fichiers .bin sont acceptés.");
+      return;
+    }
+
+    const buffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    const text = new TextDecoder().decode(bytes);
+
+    if (!text.includes("SPECTER MeshCore Repeater")) {
+      alert("❌ Firmware refusé\n\nCe fichier ne semble pas être un firmware SPECTER DX-LR30.");
+      return;
+    }
+
+    if (file.size === 0 || file.size > 128 * 1024) {
+      alert("❌ Firmware refusé\n\nTaille du firmware invalide.");
+      return;
+    }
+
+    const sizeKo = (file.size / 1024).toFixed(1);
+
+    const firstConfirm = confirm(
+      "⚠️ Firmware SPECTER reconnu\n\n" +
+      "Fichier : " + file.name + "\n" +
+      "Taille : " + sizeKo + " Ko\n\n" +
+      "Cible : /dev/specter-2\n" +
+      "Nouvelle DX-LR30\n\n" +
+      "Le firmware actuel de cette carte sera remplacé.\n\n" +
+      "Continuer ?"
+    );
+
+    if (!firstConfirm) return;
+
+    const prepare = await fetch("/api/firmware/prepare", {
+      method: "POST"
+    });
+
+    const prepared = await prepare.json();
+
+    if (prepared.filename !== file.name || prepared.size !== file.size) {
+      alert("❌ Flash annulé\n\nLe fichier sélectionné ne correspond pas au firmware préparé par DX-Admin.");
+      return;
+    }
+
+    if (!prepared.ok) {
+      alert("❌ Flash annulé\n\n" + prepared.message);
+      return;
+    }
+
+    const secondConfirm = confirm(
+      "🚨 DERNIÈRE CONFIRMATION\n\n" +
+      "DX-Admin va maintenant écrire le firmware sur :\n" +
+      "/dev/specter-2\n\n" +
+      "Ancienne DX-LR30 : /dev/specter-repeater\n" +
+      "→ elle ne sera PAS touchée.\n\n" +
+      "La sauvegarde de la nouvelle carte existe déjà.\n\n" +
+      "Appuyez sur RST de la nouvelle DX-LR30, puis cliquez OK immédiatement.\n\nLANCER LE FLASH ?"
+    );
+
+    if (!secondConfirm) return;
+
+    alert(
+      "⚡ Le flash va commencer.\n\n" +
+      "Ne débranchez pas la DX-LR30."
+    );
+
+    try {
+      const response = await fetch("/api/firmware/flash", {
+        method: "POST"
+      });
+
+      const result = await response.json();
+
+      if (result.ok) {
+        alert(
+          "✅ Flash terminé avec succès.\n\n" +
+          "La nouvelle DX-LR30 a été flashée."
+        );
+      } else {
+        alert(
+          "❌ Échec du flash.\n\n" +
+          result.message
+        );
+      }
+    } catch (e) {
+      alert("❌ Erreur de communication avec DX-Admin.");
+    }
+  });
+
+  input.click();
+});
+</script>
+
+</body>
+</html>
